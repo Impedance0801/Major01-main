@@ -1,0 +1,100 @@
+{
+  "dataset": {
+    "days": 59,
+    "hourly_rows": 265,
+    "downtime_events": 1388,
+    "total_liters": 212358.0,
+    "total_units": 60888,
+    "total_monitored_hours": 238.65463694444426,
+    "total_operation_hours": 101.8089752777777,
+    "total_pause_hours": 137.56440277777767,
+    "overall_efficiency": 0.4265954208192382,
+    "mean_daily_efficiency": 0.46520808832038557
+  },
+  "downtime_profile": {
+    "median_min": 1.5005333333333333,
+    "p90_min": 6.500543333333334,
+    "p95_min": 13.73810583333323,
+    "max_min": 349.8316833333334,
+    "micro_count": 851,
+    "micro_share_time_pct": 13.589252007543287,
+    "minor_count": 443,
+    "minor_share_time_pct": 20.151090023448457,
+    "major_count": 94,
+    "major_share_time_pct": 66.25965796900826
+  },
+  "waste_baseline": {
+    "waiting_waste_hours": 137.56440277777767,
+    "waiting_waste_share_pct": 57.64162160813196,
+    "value_adding_time_share_pct": 42.65954208192382
+  },
+  "scenarios": {
+    "baseline_liters": 211924.69216319927,
+    "visual_liters_gain_pct": 2.3319586908315304,
+    "tpm_liters_gain_pct": 20.610813667202855,
+    "integrated_liters_gain_pct": 32.18951434892546,
+    "baseline_efficiency_pct": 42.36923408651354,
+    "integrated_efficiency_pct": 55.328620373766455,
+    "integrated_eff_gain_pp": 12.959386287252917,
+    "integrated_pause_reduction_pct": 22.509097218558246,
+    "integrated_waiting_waste_hours": 106.67908515281135,
+    "integrated_waiting_waste_share_pct": 44.69137815131144,
+    "integrated_waste_recovered_h": 30.987507084077464
+  },
+  "scenario_comparison": [
+    {
+      "scenario": "baseline",
+      "liters_mean": 211924.6922,
+      "liters_gain_pct": 0.0,
+      "efficiency_pct": 42.3692,
+      "pause_mean": 137.6666,
+      "waiting_waste_h": 137.6666,
+      "waiting_waste_share_pct": 57.6731,
+      "waste_recovered_h": 0.0,
+      "waste_reduction_pct": 0.0
+    },
+    {
+      "scenario": "s1_5s_visual",
+      "liters_mean": 216866.6884,
+      "liters_gain_pct": 2.332,
+      "efficiency_pct": 43.2498,
+      "pause_mean": 135.5691,
+      "waiting_waste_h": 135.5691,
+      "waiting_waste_share_pct": 56.7944,
+      "waste_recovered_h": 2.0975,
+      "waste_reduction_pct": 1.5236
+    },
+    {
+      "scenario": "s2_tpm",
+      "liters_mean": 255604.0956,
+      "liters_gain_pct": 20.6108,
+      "efficiency_pct": 50.8102,
+      "pause_mean": 117.4611,
+      "waiting_waste_h": 117.4611,
+      "waiting_waste_share_pct": 49.2083,
+      "waste_recovered_h": 20.2055,
+      "waste_reduction_pct": 14.6771
+    },
+    {
+      "scenario": "s3_integrated",
+      "liters_mean": 280142.2214,
+      "liters_gain_pct": 32.1895,
+      "efficiency_pct": 55.3286,
+      "pause_mean": 106.6791,
+      "waiting_waste_h": 106.6791,
+      "waiting_waste_share_pct": 44.6914,
+      "waste_recovered_h": 30.9875,
+      "waste_reduction_pct": 22.5091
+    }
+  ],
+  "product_rates_lph": {
+    "3": {
+      "mean": 1963.707,
+      "median": 1858.908
+    },
+    "5": {
+      "mean": 2918.68,
+      "median": 2729.257
+    }
+  }
+}

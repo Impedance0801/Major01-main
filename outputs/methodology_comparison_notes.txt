@@ -1,0 +1,9 @@
+Scoring scale used in the comparative methodology figures
+0 = not explicitly modeled or measured
+1 = indirect, qualitative, or weak emphasis
+2 = explicit secondary emphasis
+3 = core quantitative emphasis or strongest fit
+
+Comparison basis: Scores are author-assigned from the published methodology descriptions, abstracts, and explicitly reported KPI scopes in the cited studies. They are comparative interpretation scores, not normalized raw performance outcomes.
+
+Scope note: Only papers that present a concrete lean-evaluation workflow were scored. Broad reviews and cross-sectional strategic studies informed the narrative but were not plotted as plant-level methodology templates.

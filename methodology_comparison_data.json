@@ -1,0 +1,323 @@
+{
+  "score_scale": {
+    "0": "not explicitly modeled or measured",
+    "1": "indirect, qualitative, or weak emphasis",
+    "2": "explicit secondary emphasis",
+    "3": "core quantitative emphasis or strongest fit"
+  },
+  "notes": {
+    "comparison_basis": "Scores are author-assigned from the published methodology descriptions, abstracts, and explicitly reported KPI scopes in the cited studies. They are comparative interpretation scores, not normalized raw performance outcomes.",
+    "scored_studies_scope": "Only papers that present a concrete lean-evaluation workflow were scored. Broad reviews and cross-sectional strategic studies informed the narrative but were not plotted as plant-level methodology templates."
+  },
+  "studies": [
+    {
+      "short_name": "This Study",
+      "year": 2026,
+      "citation_label": "This study",
+      "citation_key": "current",
+      "source_url": "https://doi.org/10.5281/zenodo.18146866",
+      "method_family": "Open-data event-level bootstrap simulation",
+      "industry_basis": "Beverage bottling line",
+      "primary_kpis": [
+        "Throughput/output",
+        "Availability",
+        "Downtime",
+        "Waiting-waste reduction"
+      ],
+      "best_fit": "Repetitive packaging and food-beverage SME lines",
+      "main_strength": "Maps real downtime-event structure directly to lean scenario prioritization and quantifies uncertainty with bootstrap intervals.",
+      "main_limitation": "Does not directly model quality, WIP, labor, or cost, and lean effects remain scenario assumptions rather than measured post-implementation outcomes.",
+      "kpis": {
+        "throughput_output": 3,
+        "availability_downtime": 3,
+        "waste_reduction": 3,
+        "lead_time_flow": 0,
+        "inventory_wip": 0,
+        "quality_defect": 0,
+        "labor_human": 0,
+        "cost_resource": 0,
+        "flexibility_responsiveness": 1
+      },
+      "capabilities": {
+        "real_data_grounding": 3,
+        "root_cause_specificity": 1,
+        "uncertainty_handling": 3,
+        "human_factor_modeling": 0,
+        "real_time_support": 1,
+        "sme_accessibility": 3
+      },
+      "industries": {
+        "beverage_packaging": 3,
+        "food_beverage_smes": 3,
+        "apparel_labor_intensive": 1,
+        "high_mix_aerospace_jobshop": 1,
+        "digital_twin_cells": 1,
+        "continuous_process": 0
+      }
+    },
+    {
+      "short_name": "Possik et al. [4]",
+      "year": 2022,
+      "citation_label": "Possik et al.",
+      "citation_key": "r4",
+      "source_url": "https://doi.org/10.1080/0951192X.2021.1972468",
+      "method_family": "Co-simulation for contextual lean-tool evaluation",
+      "industry_basis": "Aeronautical manufacturing case",
+      "primary_kpis": [
+        "WIP",
+        "Lead time",
+        "Throughput",
+        "Defect rate"
+      ],
+      "best_fit": "High-mix aerospace and context-sensitive manufacturing systems",
+      "main_strength": "Covers a broad KPI set and explicitly tests lean-tool sensitivity under market, demand, and resource uncertainty.",
+      "main_limitation": "Requires heavier co-simulation setup and is less accessible for low-resource SME studies using open plant data.",
+      "kpis": {
+        "throughput_output": 3,
+        "availability_downtime": 1,
+        "waste_reduction": 1,
+        "lead_time_flow": 3,
+        "inventory_wip": 3,
+        "quality_defect": 3,
+        "labor_human": 2,
+        "cost_resource": 1,
+        "flexibility_responsiveness": 3
+      },
+      "capabilities": {
+        "real_data_grounding": 2,
+        "root_cause_specificity": 2,
+        "uncertainty_handling": 3,
+        "human_factor_modeling": 1,
+        "real_time_support": 0,
+        "sme_accessibility": 1
+      },
+      "industries": {
+        "beverage_packaging": 1,
+        "food_beverage_smes": 1,
+        "apparel_labor_intensive": 1,
+        "high_mix_aerospace_jobshop": 3,
+        "digital_twin_cells": 1,
+        "continuous_process": 1
+      }
+    },
+    {
+      "short_name": "Frecassetti et al. [5]",
+      "year": 2023,
+      "citation_label": "Frecassetti et al.",
+      "citation_key": "r5",
+      "source_url": "https://doi.org/10.1080/10686967.2023.2171326",
+      "method_family": "Mixed case study plus simulation for lean-tool selection",
+      "industry_basis": "Italian SME",
+      "primary_kpis": [
+        "Process performance",
+        "Tool-combination impact"
+      ],
+      "best_fit": "SME process-improvement planning with moderate modeling burden",
+      "main_strength": "Managerially interpretable and practical for choosing lean-tool combinations in an SME setting.",
+      "main_limitation": "Publicly visible methodology descriptions provide less KPI detail and less event-level downtime specificity than the present study.",
+      "kpis": {
+        "throughput_output": 2,
+        "availability_downtime": 1,
+        "waste_reduction": 2,
+        "lead_time_flow": 2,
+        "inventory_wip": 1,
+        "quality_defect": 1,
+        "labor_human": 1,
+        "cost_resource": 1,
+        "flexibility_responsiveness": 1
+      },
+      "capabilities": {
+        "real_data_grounding": 2,
+        "root_cause_specificity": 2,
+        "uncertainty_handling": 1,
+        "human_factor_modeling": 1,
+        "real_time_support": 1,
+        "sme_accessibility": 3
+      },
+      "industries": {
+        "beverage_packaging": 2,
+        "food_beverage_smes": 2,
+        "apparel_labor_intensive": 2,
+        "high_mix_aerospace_jobshop": 1,
+        "digital_twin_cells": 1,
+        "continuous_process": 1
+      }
+    },
+    {
+      "short_name": "Oleghe and Salonitis [2]",
+      "year": 2019,
+      "citation_label": "Oleghe and Salonitis",
+      "citation_key": "r2",
+      "source_url": "https://doi.org/10.1108/IJLSS-01-2018-0004",
+      "method_family": "Hybrid system dynamics and discrete-event simulation",
+      "industry_basis": "Lean manufacturing case with production-pressure effects",
+      "primary_kpis": [
+        "Quality performance",
+        "Throughput",
+        "Scheduling trade-off"
+      ],
+      "best_fit": "Plants where workforce behavior and scheduling pressure shape performance",
+      "main_strength": "Captures human factors, policy feedback loops, and quality-throughput trade-offs better than downtime-only methods.",
+      "main_limitation": "More difficult to calibrate and less directly tied to event-level downtime logs or simple SME datasets.",
+      "kpis": {
+        "throughput_output": 2,
+        "availability_downtime": 1,
+        "waste_reduction": 1,
+        "lead_time_flow": 1,
+        "inventory_wip": 0,
+        "quality_defect": 3,
+        "labor_human": 3,
+        "cost_resource": 0,
+        "flexibility_responsiveness": 1
+      },
+      "capabilities": {
+        "real_data_grounding": 2,
+        "root_cause_specificity": 2,
+        "uncertainty_handling": 2,
+        "human_factor_modeling": 3,
+        "real_time_support": 0,
+        "sme_accessibility": 1
+      },
+      "industries": {
+        "beverage_packaging": 1,
+        "food_beverage_smes": 1,
+        "apparel_labor_intensive": 2,
+        "high_mix_aerospace_jobshop": 2,
+        "digital_twin_cells": 1,
+        "continuous_process": 1
+      }
+    },
+    {
+      "short_name": "Reslan et al. [10]",
+      "year": 2025,
+      "citation_label": "Reslan et al.",
+      "citation_key": "r10",
+      "source_url": "https://doi.org/10.1016/j.procir.2025.02.159",
+      "method_family": "Digital twin plus automated value-stream mapping",
+      "industry_basis": "Lab-scale manufacturing cell",
+      "primary_kpis": [
+        "Non-value-added time",
+        "Resource utilization",
+        "Process monitoring"
+      ],
+      "best_fit": "Digitally instrumented smart-factory cells needing live process visibility",
+      "main_strength": "Uses machine-connected data for real-time monitoring and dynamic value-stream optimization.",
+      "main_limitation": "Digital-twin infrastructure raises complexity and cost, making it less accessible for typical SMEs.",
+      "kpis": {
+        "throughput_output": 2,
+        "availability_downtime": 1,
+        "waste_reduction": 3,
+        "lead_time_flow": 3,
+        "inventory_wip": 1,
+        "quality_defect": 0,
+        "labor_human": 1,
+        "cost_resource": 2,
+        "flexibility_responsiveness": 2
+      },
+      "capabilities": {
+        "real_data_grounding": 3,
+        "root_cause_specificity": 2,
+        "uncertainty_handling": 2,
+        "human_factor_modeling": 0,
+        "real_time_support": 3,
+        "sme_accessibility": 1
+      },
+      "industries": {
+        "beverage_packaging": 2,
+        "food_beverage_smes": 1,
+        "apparel_labor_intensive": 1,
+        "high_mix_aerospace_jobshop": 1,
+        "digital_twin_cells": 3,
+        "continuous_process": 1
+      }
+    },
+    {
+      "short_name": "Matindana and Shoshiwa [9]",
+      "year": 2025,
+      "citation_label": "Matindana and Shoshiwa",
+      "citation_key": "r9",
+      "source_url": "https://doi.org/10.1007/s44176-025-00036-3",
+      "method_family": "Survey-based SEM across food and beverage SMEs",
+      "industry_basis": "113 food and beverage SMEs in Tanzania",
+      "primary_kpis": [
+        "Output improvement",
+        "Waste reduction",
+        "Lean-process adoption"
+      ],
+      "best_fit": "Sector-level benchmarking and policy guidance for food and beverage SMEs",
+      "main_strength": "Provides broader cross-firm generalizability in the food-and-beverage SME context.",
+      "main_limitation": "Not designed for plant-level what-if simulation or event-level downtime prioritization.",
+      "kpis": {
+        "throughput_output": 2,
+        "availability_downtime": 1,
+        "waste_reduction": 3,
+        "lead_time_flow": 1,
+        "inventory_wip": 0,
+        "quality_defect": 0,
+        "labor_human": 1,
+        "cost_resource": 2,
+        "flexibility_responsiveness": 1
+      },
+      "capabilities": {
+        "real_data_grounding": 2,
+        "root_cause_specificity": 1,
+        "uncertainty_handling": 1,
+        "human_factor_modeling": 2,
+        "real_time_support": 0,
+        "sme_accessibility": 3
+      },
+      "industries": {
+        "beverage_packaging": 2,
+        "food_beverage_smes": 3,
+        "apparel_labor_intensive": 1,
+        "high_mix_aerospace_jobshop": 0,
+        "digital_twin_cells": 0,
+        "continuous_process": 1
+      }
+    },
+    {
+      "short_name": "Unal and Bilget [11]",
+      "year": 2021,
+      "citation_label": "Unal and Bilget",
+      "citation_key": "r11",
+      "source_url": "https://doi.org/10.1080/00405000.2020.1756104",
+      "method_family": "Discrete-event simulation plus line-balancing algorithm",
+      "industry_basis": "Apparel manufacturing company",
+      "primary_kpis": [
+        "Production time",
+        "Mean throughput per day",
+        "Throughput per operator"
+      ],
+      "best_fit": "Labor-intensive assembly lines where balancing and operator productivity dominate",
+      "main_strength": "Strong for operator-level throughput, balancing, and labor productivity problems.",
+      "main_limitation": "Less informative for automated, downtime-dominated packaging lines with sparse labor bottlenecks.",
+      "kpis": {
+        "throughput_output": 3,
+        "availability_downtime": 1,
+        "waste_reduction": 1,
+        "lead_time_flow": 2,
+        "inventory_wip": 0,
+        "quality_defect": 0,
+        "labor_human": 3,
+        "cost_resource": 0,
+        "flexibility_responsiveness": 1
+      },
+      "capabilities": {
+        "real_data_grounding": 2,
+        "root_cause_specificity": 2,
+        "uncertainty_handling": 2,
+        "human_factor_modeling": 2,
+        "real_time_support": 0,
+        "sme_accessibility": 2
+      },
+      "industries": {
+        "beverage_packaging": 1,
+        "food_beverage_smes": 1,
+        "apparel_labor_intensive": 3,
+        "high_mix_aerospace_jobshop": 1,
+        "digital_twin_cells": 0,
+        "continuous_process": 0
+      }
+    }
+  ]
+}

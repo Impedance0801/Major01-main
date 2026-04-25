@@ -1,0 +1,559 @@
+\documentclass[12pt,a4paper]{article}
+
+\usepackage[margin=1in]{geometry}
+\usepackage{graphicx}
+\usepackage{amsmath}
+\usepackage{booktabs}
+\usepackage{float}
+\usepackage{array}
+\usepackage{longtable}
+\usepackage{setspace}
+\usepackage{hyperref}
+\usepackage{titlesec}
+
+\setstretch{1.15}
+\setlength{\parskip}{0.5em}
+\setlength{\parindent}{0pt}
+\hypersetup{colorlinks=true,linkcolor=black,urlcolor=blue,citecolor=black}
+
+\titleformat{\section}{\large\bfseries}{\thesection.}{0.5em}{}
+\titleformat{\subsection}{\normalsize\bfseries}{\thesubsection}{0.5em}{}
+
+\begin{document}
+
+\begin{titlepage}
+\centering
+
+{\Large \textbf{Simulation-Based Implementation of Lean Manufacturing Techniques for Productivity Improvement in SMEs:}}\\[0.3cm]
+{\Large \textbf{A Data-Driven Case Study From a Beverage Bottling Line}}\\[1.2cm]
+
+{\large \textbf{Final Research Paper}}\\[1cm]
+
+\begin{tabular}{>{\bfseries}p{4.2cm}p{9.5cm}}
+Submitted by & Divash Krishnam, Ashutosh Verma, Raja \\
+  \\
+Department & Production and Industrial Engineering \\
+Guided by & Dr.\ MOHD SHUAIB \\
+Guide Department & Mechanical Department \\
+\end{tabular}
+
+\vfill
+
+{\large Department of Production and Industrial Engineering}\\[0.2cm]
+{\large Under the Guidance of Dr.\ MOHD SHUAIB, Mechanical Department}\\[0.8cm]
+{\large \today}
+
+\end{titlepage}
+
+\tableofcontents
+\newpage
+
+\section*{Abstract}
+This paper examines how lean-manufacturing priorities can be selected in an SME beverage bottling line by using real production and downtime records instead of a purely conceptual example. The study draws on an open IIoT-monitored dataset containing 59 production summaries, 265 hourly observations, and 1,388 downtime events recorded between July 22, 2022 and February 6, 2023. The analysis starts with baseline measurement of throughput, availability, pause time, and waiting-waste share, then classifies downtime into micro-, minor-, and major-stoppage groups. An event-level bootstrap simulation with 5,000 replications is used to test three lean scenarios: 5S with visual management, total productive maintenance (TPM), and an integrated lean bundle.
+
+The observed line produced 212,358 liters, but only 42.66\% of monitored time was value-adding; the remaining 57.64\% was consumed by waiting waste in the form of downtime. Micro-stoppages accounted for 61.31\% of all events but only 13.59\% of downtime minutes, whereas major stoppages represented just 6.77\% of events while consuming 66.26\% of lost time.A key observation from the simulation is that 5S with visual management improves output by 2.33\% and reduces waiting waste by 1.52\%, TPM improves output by 20.61\% and reduces waiting waste by 14.68\%, and the integrated lean bundle improves output by 32.19\%, raises simulated availability from 42.37\% to 55.33\%, and recovers 30.99 hours of waiting waste across the sampled production horizon.
+
+These results show that the most useful first action for this SME line is not the most visible interruption but the most costly one. Maintenance-centered action aimed at severe stoppages removes far more waste than workplace-organization measures alone. The method is therefore most valuable in repetitive, downtime-driven SME production systems where waiting waste, availability loss, and throughput recovery are closely connected.
+
+\section*{Keywords}
+Lean manufacturing, productivity improvement, SME manufacturing, waste reduction, waiting waste, beverage bottling line, downtime analysis, total productive maintenance, 5S, bootstrap simulation.
+
+\newpage
+\section{Introduction}
+On a bottling line, productivity loss is rarely distributed evenly across all operating problems. A plant may see dozens of short interruptions during a shift, yet only a few longer stoppages can consume most of the available production time. In lean terms, that lost time appears as waiting waste: monitored time passes, but no output is produced. For SMEs, this makes prioritization difficult because maintenance capacity, technical manpower, and improvement budgets are usually limited [1], [3].
+
+In practice, the first improvement decision is often the hardest one.This is not always obvious Managers may know that downtime is hurting output, yet they may still be uncertain whether to focus on workplace discipline, maintenance, line organization, or some combination of these actions. A useful research study should therefore do more than describe lean tools in general terms. It should show which loss pattern is dominant in the observed system and estimate what level of improvement may follow if that loss is reduced.
+
+This paper addresses that problem through a real beverage bottling dataset collected from an IIoT-enabled production system [7], [8]. Because the dataset contains production output, monitored time, operating time, and event-level downtime records, it becomes possible to connect lean actions directly to observed operating losses and to quantify how much waiting waste each intervention can remove. Instead of treating lean manufacturing only as a theoretical framework, the paper uses plant data to test which intervention is most likely to recover productive time and reduce non-value-adding time.
+
+The purpose of the study is to develop a clear, data-based method for selecting lean priorities in a repetitive production environment. The same approach is also useful as an academic case because it combines industrial-engineering analysis, production data, and simulation in a form that can be checked against actual operating records rather than only narrative claims.
+
+The main objectives of this study are:
+\begin{enumerate}
+    \item to analyze the production behavior and downtime structure of a real bottling-line system;
+    \item to identify the dominant waiting-waste pattern affecting productivity;
+    \item to simulate the effect of selected lean interventions on throughput, availability, and waste reduction; and
+    \item to recommend an implementation priority for lean techniques based on the observed loss pattern.
+\end{enumerate}
+
+\section{Literature Review}
+The literature relevant to this study can be organized into four linked conversations rather than a single uniform debate. The first concerns the general relationship between lean manufacturing and operational performance. Belekoukias \emph{et al.} [1] showed that lean methods are frequently associated with improvements in manufacturing performance, but their synthesis also implies that performance gains depend heavily on context. Belhadi \emph{et al.} [18], writing from an SME perspective, reached a complementary conclusion: lean adoption in smaller firms is shaped by resource constraints, sequencing problems, and measurement difficulties. Read together, these studies support lean implementation, but they also suggest that SMEs need help deciding which intervention should come first instead of adopting lean tools as an undifferentiated bundle.
+
+A second conversation focuses on food and beverage production, where packaging synchronization, hygiene requirements, short stoppages, and high line dependence complicate direct transfer of lean lessons from other industries. Dora \emph{et al.} [19] found that lean practice in European food-processing SMEs was still relatively immature and strongly influenced by workforce capability, internal expertise, and organizational culture. Cuggia-Jim\'enez \emph{et al.} [23] similarly showed through a systematic review that food-industry lean research is broad in topic coverage but uneven in method and sector depth. Matindana and Shoshiwa [9] extended the SME discussion by showing that lean practices are associated with better outcomes in food and beverage SMEs, but their SEM-based approach is more useful for sector-level relationships than for plant-level intervention ranking. These studies establish the importance of lean in the food sector, yet they do not tell a bottling line whether micro-stoppages, major breakdowns, or a combined program should be attacked first.
+
+A third conversation concerns simulation and model-based evaluation of lean alternatives. Oleghe and Salonitis [2] argued that lean analysis becomes stronger when human behavior, process variability, and system interaction are modeled explicitly instead of being discussed only in descriptive terms. Yu and Chen [3] reached a related conclusion from an SME perspective: simulation is valuable for improvement planning, but many smaller firms still lack accessible and transferable applications that fit their operating reality. Possik \emph{et al.} [4] used co-simulation to compare lean techniques under changing manufacturing conditions, while Frecassetti \emph{et al.} [5] showed that simulation can support lean-practice selection in an SME before physical implementation begins. Al-Hawari \emph{et al.} [20] are especially relevant to the present work because they used simulation to study productivity improvement in a bottle-filling system and linked downtime analysis to throughput improvement. Compared with these studies, the current paper is narrower in KPI scope, but it is more explicit in mapping observed downtime classes to lean scenarios and in keeping the workflow reproducible with open data.
+
+A fourth conversation is more directly downtime-centered and therefore closer to the core logic of the present study. Zennaro \emph{et al.} [21] collected detailed micro-downtime data in bottling lines and showed that short interruptions can account for a large share of inefficiency once they are measured carefully. Inyiama and Oke [22] examined downtime in a process bottling plant through cause-and-effect analysis, Pareto reasoning, and Weibull modeling, highlighting how maintenance-oriented diagnosis can improve reliability planning. Another development in the literature is the growing overlap between lean thinking and digital manufacturing. Bokhorst \emph{et al.} [6] showed that smart-manufacturing practices often extend lean principles rather than replace them, while Reslan \emph{et al.} [10] used digital-twin-based value-stream analysis to show how real-time data can support process diagnosis. These studies suggest that line-level data can make lean analysis more precise, particularly when waste must be identified from actual operating behavior rather than observation alone.
+
+Taken together, the literature suggests three recurring trade-offs. Review and survey studies provide breadth but limited plant-level decision guidance [18], [19], [23]. Simulation studies provide stronger what-if comparison but often rely on proprietary cases or broader system models [2]--[5], [20]. Bottling-line downtime studies provide deeper operational diagnosis [21], [22], yet they do not usually convert stoppage patterns into a ranked lean-priority framework. However, published work still rarely combines SME relevance, beverage-line context, open event data, uncertainty-aware simulation, and explicit downtime-driven prioritization in one reproducible workflow.
+
+\begin{table}[H]
+\centering
+\caption{Literature Synthesis and Comparative Relevance}
+\begin{tabular}{p{2.8cm}p{5.7cm}p{4.9cm}}
+\toprule
+\textbf{Study} & \textbf{Main Contribution} & \textbf{Gap Relevant to This Study} \\
+\midrule
+Belhadi \emph{et al.} [18] & Broad review of lean production in SMEs and their implementation challenges. & Strong on SME context, but not designed for plant-level prioritization of specific downtime losses. \\
+Dora \emph{et al.} [19] & Connects lean practice to operational performance and critical success factors in food-processing SMEs. & Valuable sector relevance, but limited guidance on event-level stoppage prioritization. \\
+Yu and Chen [3] & Review of factory simulation in SMEs and identification of adoption barriers. & Supports simulation use, but does not provide a bottling-line loss-ranking workflow. \\
+Possik \emph{et al.} [4] & Co-simulation framework for evaluating lean technique impact under changing conditions. & Broader contextual modeling, but limited open-data reproducibility. \\
+Frecassetti \emph{et al.} [5] & Simulation-based introduction of lean practices in an SME. & Helpful for tool selection, but industrial data are not openly reusable. \\
+Zennaro \emph{et al.} [21] & Detailed micro-downtime analysis in beverage bottling lines with OEE relevance. & Strong downtime diagnosis, but not framed as lean-intervention prioritization under uncertainty. \\
+Inyiama and Oke [22] & Reliability and downtime evaluation in a process bottling plant using cause-effect and Weibull analysis. & Strong maintenance insight, but not a comparative lean-scenario framework. \\
+This study & Open-data, downtime-driven simulation of lean alternatives in an SME bottling context. & Focuses on a reproducible case that connects stoppage structure to lean-priority selection. \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\section{Research Gap and Research Questions}
+The review above points to a specific gap. Many published studies report that lean practices improve performance, but fewer studies show how event-level downtime records can be used to decide between competing interventions in an SME-relevant production setting [3]--[5], [9], [18], [19]. Fewer still translate those records into an explicit measure of waiting-waste reduction while remaining reproducible for other users. A second gap concerns data openness. Much of the simulation and bottling-line literature still depends on proprietary industrial cases, which makes it difficult for students or small firms to repeat the same analytical steps on accessible data [20]--[22]. A third gap concerns methodological fit. Existing approaches differ in scope and sophistication, but not all of them are equally suitable for repetitive packaging systems where lost output is closely tied to stoppage severity and waiting waste.
+
+To address that gap, the present study is guided by the following research questions:
+\begin{enumerate}
+    \item Which category of downtime contributes most to productivity loss and waiting waste in the observed bottling line?
+    \item How much improvement in output, availability, and waiting-waste reduction is associated with different lean-intervention scenarios?
+    \item Which lean strategy should be prioritized first on a line where downtime severity is unevenly distributed?
+\end{enumerate}
+
+\section{Research Object}
+The research object of this study is a beverage bottling line represented through the \textit{Industrial Production Time-Series Dataset from a Beverage Bottling Line}, published on Zenodo on January 4, 2026 [8]. The dataset corresponds to a real industrial operation monitored through an IIoT architecture, and the related article by David \emph{et al.} [7] confirms the industrial and digital-monitoring context of the source.
+
+The dataset contains four important groups of information:
+\begin{enumerate}
+    \item production output aggregated by hour,
+    \item daily production summaries,
+    \item hourly operating breakdown records, and
+    \item event-level downtime logs.
+\end{enumerate}
+
+The monitoring period covers July 22, 2022 to February 6, 2023. The dataset includes two product sizes, 3-liter and 5-liter containers, and captures real variation in line behavior over time. It was selected because it offers both production information and detailed downtime-event records, which makes it suitable for a study focused on lean prioritization through observed loss patterns.
+
+\begin{table}[H]
+\centering
+\caption{Dataset Characteristics}
+\begin{tabular}{lr}
+\toprule
+\textbf{Attribute} & \textbf{Value} \\
+\midrule
+Monitoring period & July 22, 2022 to February 6, 2023 \\
+Production summary records & 59 \\
+Calendar production days & 56 \\
+Hourly operating observations & 265 \\
+Downtime events & 1,388 \\
+Observed product sizes & 3 L and 5 L \\
+Total liters produced & 212,358 \\
+Total units produced & 60,888 \\
+Total monitored time & 238.65 h \\
+Total operating time & 101.81 h \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\section{Methodology}
+This study uses a data-driven simulation methodology to evaluate lean alternatives on the basis of observed production behavior. The method combines baseline performance analysis, downtime classification, waiting-waste measurement, and bootstrap simulation.
+
+\subsection{Analytical Framework}
+\begin{equation}
+A = \frac{T_{op}}{T_{mon}}
+\end{equation}
+where $A$ is operational availability, $T_{op}$ is effective operating time, and $T_{mon}$ is monitored time.
+
+\begin{equation}
+T_{dt} = T_{mon} - T_{op}
+\end{equation}
+where $T_{dt}$ is downtime or pause time.
+
+\begin{equation}
+R = \frac{Q}{T_{op}}
+\end{equation}
+where $Q$ is total production output in liters and $R$ is the average production rate in liters per operating hour.
+
+\begin{equation}
+Q' = R \times (T_{mon} - T'_{dt})
+\end{equation}
+where $Q'$ is the simulated output after a lean intervention and $T'_{dt}$ is the scenario-adjusted downtime.
+
+\begin{equation}
+T'_{dt} = T_{res} + \sum_{i=1}^{n}\alpha_i t_i
+\end{equation}
+where $T_{res}$ is residual downtime not explicitly represented at event level, $t_i$ is the duration of downtime event $i$, and $\alpha_i$ is a scenario-specific reduction factor applied to that event.
+
+\begin{equation}
+\%\Delta Q = \frac{Q' - Q}{Q}\times 100
+\end{equation}
+
+\begin{equation}
+\%\Delta W = \frac{T_{dt} - T'_{dt}}{T_{dt}}\times 100
+\end{equation}
+where $\%\Delta W$ is the percentage reduction in waiting waste after a lean intervention.
+
+These relationships were used to convert plant observations into comparable scenario outcomes for throughput, availability, and waste reduction.
+
+\subsection{Step 1: Data Extraction and Cleaning}
+The Excel dataset was organized into production summaries, hourly operation records, and downtime-event data. Dates, durations, and production quantities were standardized. Downtime durations were converted to minutes so that event-level categorization and simulation could be performed consistently.
+
+\subsection{Step 2: Baseline Performance Analysis}
+Baseline performance was measured using liters produced, production units, monitored time, operating time, pause time, daily efficiency, hourly efficiency, and the share of monitored time consumed by waiting waste. This step was necessary to understand the real operating condition of the system before any lean scenario was introduced.
+
+\subsection{Step 3: Downtime Categorization}
+Downtime events were classified into three categories:
+\begin{itemize}
+    \item \textbf{Micro-stoppages:} $t \leq 2$ min
+    \item \textbf{Minor stoppages:} $2 < t \leq 10$ min
+    \item \textbf{Major stoppages:} $t > 10$ min
+\end{itemize}
+
+This classification distinguishes frequent short interruptions from serious breakdown-type events. Such separation is important for selecting lean tools.
+
+\subsection{Step 4: Production-Rate Estimation}
+For each observed production day, production rate was estimated from liters produced divided by effective operating time. This creates a realistic day-level performance profile that preserves operational variability instead of assuming a constant theoretical output rate.
+
+\subsection{Step 5: Bootstrap Simulation}
+An event-level bootstrap simulation with 5,000 replications was performed. Each replication resampled observed day profiles with replacement. This allows the model to preserve the stochastic behavior of monitored time, productivity, and downtime structure. Event durations were normalized to the recorded daily pause time so that the simulated baseline remained aligned with the observed plant record.
+
+Bootstrap simulation was selected because it preserves the variability observed in the plant data without imposing a parametric distribution on downtime or output behavior [17].
+
+\subsection{Step 6: Scenario Design}
+Three lean scenarios were designed and evaluated:
+\begin{enumerate}
+    \item \textbf{5S + Visual Management:} 15\% of micro-stoppages eliminated [12], [13].
+    \item \textbf{TPM:} 25\% reduction in the duration of major stoppages [14], [15].
+    \item \textbf{Integrated Lean Bundle:} 20\% of micro-stoppages eliminated, 15\% reduction in minor stoppages, and 30\% reduction in major stoppages [16].
+\end{enumerate}
+
+These values are scenario assumptions informed by lean implementation logic and literature [12]--[16]. They are intended for comparative evaluation rather than claiming exact future plant outcomes.
+
+The scenario values were not chosen arbitrarily. The 5S assumption was anchored to reported 5S case improvements such as 8--18\% reductions in operational time and substantial efficiency gains in small-scale manufacturing [12], [13]. The TPM assumption was anchored to TPM case studies reporting about 23--23.4\% reductions in breakdowns or downtime, with even larger reductions in some machine groups [14], [15]. The integrated lean bundle combines these literature-backed single-tool effects and follows the wider evidence that lean practices implemented as bundles can produce stronger operational gains than isolated tools [16]. For that reason, the scenario values should be read as literature-grounded planning parameters rather than arbitrary hypothetical numbers or exact guarantees of future plant outcomes.
+
+\subsection{Algorithmic Logic of the Proposed Model}
+The model uses a data-driven bootstrap simulation. First, daily production and downtime records are converted into baseline operating profiles. Second, these observed day profiles are resampled with replacement across 5,000 replications to preserve real production variability. Third, lean rules are applied to the sampled downtime events. Finally, pause time, operating time, availability, output, and waiting-waste reduction are recalculated.
+
+In operational terms, the algorithm does not impose an artificial production pattern on the system. It repeatedly resamples the behavior observed in the real plant and then estimates how the results change when specific categories of downtime are reduced through lean interventions.
+
+\subsection{How Lean Manufacturing Was Applied to the Data}
+Lean manufacturing was applied directly to the downtime data by mapping each lean tool to a specific loss category. In this study, downtime is interpreted as waiting waste because monitored production time is consumed without generating output.
+
+\begin{table}[H]
+\centering
+\caption{How Lean Tools Were Mapped to the Data}
+\begin{tabular}{p{3.0cm}p{4.2cm}p{6.0cm}}
+\toprule
+\textbf{Lean Tool} & \textbf{Data Signal Used} & \textbf{Logic Used in the Model} \\
+\midrule
+5S + Visual Management & Micro-stoppages and short interruptions & Better workplace organization is expected to remove small avoidable delays and short flow interruptions. \\
+TPM & Major stoppages and long downtime duration & Better maintenance and reliability are expected to reduce severe breakdown time and recovery time. \\
+Integrated Lean Bundle & Micro, minor, and major stoppages together & A combined lean program is expected to improve both routine discipline and machine reliability. \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\section{Result}
+\subsection{Baseline Performance of the System}
+The observed production system produced 212,358 liters from 60,888 units during 238.65 monitored hours. Effective operating time was only 101.81 hours, while pause time reached 137.56 hours. This corresponds to an overall observed availability of 42.66\%, indicating that downtime is the main performance constraint. The same result can be read in lean terms as a waiting-waste share of 57.64\% of monitored time, leaving only 42.66\% of the observed horizon as value-adding operating time.
+
+At the product level, the average production rate was 1,963.71 L/h for the 3-liter product and 2,918.68 L/h for the 5-liter product. The 5-liter product therefore showed a higher effective throughput during operating time.
+
+\begin{table}[H]
+\centering
+\caption{Baseline Performance Indicators}
+\begin{tabular}{lr}
+\toprule
+\textbf{Metric} & \textbf{Value} \\
+\midrule
+Production days & 56 \\
+Production summary records & 59 \\
+Hourly observations & 265 \\
+Downtime events & 1,388 \\
+Total production & 212,358 L \\
+Total units produced & 60,888 \\
+Monitored time & 238.65 h \\
+Operating time & 101.81 h \\
+Pause time & 137.56 h \\
+Overall availability & 42.66\% \\
+Waiting-waste share & 57.64\% \\
+Value-adding time share & 42.66\% \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\begin{figure}[H]
+\centering
+\includegraphics[width=0.92\textwidth]{outputs/monthly_efficiency.png}
+\caption{Monthly average operational efficiency from the real bottling-line dataset.}
+\end{figure}
+
+The monthly efficiency chart shows considerable variation across the study period. Lower performance is visible in August 2022 and December 2022, while stronger operational performance appears in January 2023. This confirms that the line does not behave like a stable deterministic production system.
+
+\subsection{Downtime Structure}
+The downtime-event distribution is strongly right-skewed. The median event duration is 1.50 minutes, the 90th percentile is 6.50 minutes, the 95th percentile is 13.74 minutes, and the maximum observed event is 349.83 minutes. These statistics indicate that the line experiences many short interruptions but also a small number of very large disruptions.
+
+\begin{figure}[H]
+\centering
+\includegraphics[width=0.92\textwidth]{outputs/downtime_distribution.png}
+\caption{Distribution of downtime-event duration, truncated at 60 minutes for readability.}
+\end{figure}
+
+\begin{table}[H]
+\centering
+\caption{Downtime Category Structure}
+\begin{tabular}{lrr}
+\toprule
+\textbf{Category} & \textbf{Event Count} & \textbf{Share of Downtime Minutes} \\
+\midrule
+Micro ($\leq$ 2 min) & 851 & 13.59\% \\
+Minor (2--10 min) & 443 & 20.15\% \\
+Major ($>$ 10 min) & 94 & 66.26\% \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\begin{figure}[H]
+\centering
+\includegraphics[width=0.92\textwidth]{outputs/downtime_category_pareto.png}
+\caption{Downtime Pareto by event category. Major stoppages are rare but dominant in lost time.}
+\end{figure}
+
+Micro-stoppages account for 61.31\% of all events but only 13.59\% of total downtime minutes, whereas major stoppages represent only 6.77\% of events but consume 66.26\% of lost time. This means that event frequency alone does not identify the highest productivity loss. In real plant conditions, this can easily lead to misdirected improvement efforts.
+
+\subsection{Pause Time and Efficiency Relationship}
+At the date-aggregated level, pause time showed a strong negative correlation with efficiency ($r=-0.707$). This means that as daily pause time increases, effective operating efficiency falls sharply.
+
+\begin{figure}[H]
+\centering
+\includegraphics[width=0.92\textwidth]{outputs/pause_vs_efficiency.png}
+\caption{Daily pause time versus operational efficiency.}
+\end{figure}
+
+\subsection{Production Rate by Product Type}
+The production-rate comparison by product size is shown below.
+
+\begin{figure}[H]
+\centering
+\includegraphics[width=0.85\textwidth]{outputs/product_rate_comparison.png}
+\caption{Mean and median production rate by product size.}
+\end{figure}
+
+The 5-liter product has both higher mean and higher median production rate than the 3-liter product. This suggests that product mix can also influence line performance.
+
+\subsection{Simulation Results}
+The simulation baseline produced 211,924.69 liters on average across the resampled production horizon. This closely matches the observed output of the real system, indicating that the simulation reasonably preserves actual operating behavior. In the baseline simulation, waiting waste averaged 137.67 hours, which corresponds to 57.67\% of monitored time across the sampled horizon.
+
+\begin{table}[H]
+\centering
+\caption{Simulation Results for Lean Scenarios}
+\begin{tabular}{lrrrr}
+\toprule
+\textbf{Scenario} & \textbf{Mean Output (L)} & \textbf{Gain (\%)} & \textbf{Efficiency (\%)} & \textbf{Eff. Gain (pp)} \\
+\midrule
+Baseline & 211,924.69 & 0.00 & 42.37 & 0.00 \\
+5S + Visual Management & 216,866.69 & 2.33 & 43.25 & 0.88 \\
+TPM & 255,604.10 & 20.61 & 50.81 & 8.44 \\
+Integrated Lean Bundle & 280,142.22 & 32.19 & 55.33 & 12.96 \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\begin{table}[H]
+\centering
+\caption{Waste-Reduction Results for Lean Scenarios}
+\begin{tabular}{lrrr}
+\toprule
+\textbf{Scenario} & \textbf{Waiting Waste (h)} & \textbf{Waste Recovered (h)} & \textbf{Waste Reduction (\%)} \\
+\midrule
+Baseline & 137.67 & 0.00 & 0.00 \\
+5S + Visual Management & 135.57 & 2.10 & 1.52 \\
+TPM & 117.46 & 20.21 & 14.68 \\
+Integrated Lean Bundle & 106.68 & 30.99 & 22.51 \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\begin{table}[H]
+\centering
+\caption{Simulation Uncertainty Range}
+\begin{tabular}{lrr}
+\toprule
+\textbf{Scenario} & \textbf{P05 Output (L)} & \textbf{P95 Output (L)} \\
+\midrule
+Baseline & 188,572.81 & 236,799.79 \\
+5S + Visual Management & 192,906.87 & 242,100.46 \\
+TPM & 226,295.58 & 287,389.24 \\
+Integrated Lean Bundle & 247,828.10 & 314,804.33 \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\begin{figure}[H]
+\centering
+\includegraphics[width=0.92\textwidth]{outputs/scenario_output.png}
+\caption{Mean simulated production output across the baseline and lean scenarios.}
+\end{figure}
+
+\begin{figure}[H]
+\centering
+\includegraphics[width=0.94\textwidth]{outputs/scenario_waste_reduction.png}
+\caption{Recovered waiting waste and waste-reduction percentage across the simulated lean scenarios.}
+\end{figure}
+
+From the simulation, it can be seen that 5S and visual management provide only a modest output gain of 2.33\% and recover 2.10 hours of waiting waste. This is because the scenario mainly targets micro-stoppages, which are frequent but contribute relatively little to total lost time. By contrast, TPM produces a much larger gain of 20.61\% and recovers 20.21 hours of waiting waste because it directly targets major stoppages, which dominate downtime minutes. The integrated lean bundle produces the highest gain, improving output by 32.19\%, raising simulated availability from 42.37\% to 55.33\%, and reducing waiting waste by 22.51\%, which lowers the waiting-waste share from 57.67\% to 44.69\%.
+
+\section{Discussion}
+The results suggest that lean implementation should be based on the structure of operational loss. In practical terms, this means that managers may need to reconsider focusing only on frequent interruptions and instead pay closer attention to high-impact downtime. rather than on the visibility or frequency of events alone. In many production systems, micro-stoppages attract attention because they happen often and interrupt routine work. In the present case, however, the largest production losses and the largest share of waiting waste are associated with major stoppages.
+
+For the bottling line studied here, major stoppages are the real productivity driver. Although they are relatively rare, they consume most of the downtime minutes and therefore most of the waiting waste. This explains why TPM, which focuses on equipment reliability and breakdown reduction, produces far more improvement than 5S alone. The result is fully consistent with the broader lean-simulation literature, which emphasizes context-specific tool selection [4], [5].
+
+Another important implication is the role of digital manufacturing data in strengthening lean analysis. Instead of relying only on static value stream mapping or qualitative observation, this study uses event-level downtime records and simulation to quantify both output recovery and waste reduction. This is aligned with the direction suggested by smart manufacturing and digital twin research [6], [10].
+
+\subsection{Comparison with Other Methodologies}
+The proposed method can also be compared with other lean-evaluation approaches. The comparison used in this project scores methodologies on KPI emphasis, methodological capability, and industry fit. Those scores are interpretive rather than experimental, but they help locate the present work in the wider literature.
+
+\begin{longtable}{p{2.15cm}p{2.6cm}p{2.45cm}p{3.15cm}p{3.35cm}}
+\caption{Methodology Comparison with Related Lean-Evaluation Studies}\\
+\toprule
+\textbf{Study} & \textbf{Method} & \textbf{Primary KPIs} & \textbf{Strongest Use Case} & \textbf{Main Limitation} \\
+\midrule
+\endfirsthead
+\toprule
+\textbf{Study} & \textbf{Method} & \textbf{Primary KPIs} & \textbf{Strongest Use Case} & \textbf{Main Limitation} \\
+\midrule
+\endhead
+This study & Open-data event-level bootstrap simulation & Throughput, availability, downtime, waiting-waste reduction & Repetitive packaging and food-beverage SME lines with downtime logs & Does not directly model quality, WIP, labor, or cost; scenario effects are still assumed rather than observed. \\
+Possik \emph{et al.} [4] & Co-simulation for contextual lean-tool evaluation & WIP, lead time, throughput, defect rate & High-mix aerospace and context-sensitive manufacturing systems & Higher modeling burden and weaker accessibility for low-resource SME studies. \\
+Frecassetti \emph{et al.} [5] & Mixed case study plus simulation & Process performance and tool-combination impact & Practical SME planning and tool-combination selection & Less event-level downtime specificity in the published description. \\
+Oleghe and Salonitis [2] & Hybrid system dynamics and DES & Quality performance, throughput, scheduling trade-off & Plants where workforce behavior and production pressure shape outcomes & Harder to calibrate and less directly usable with simple downtime logs. \\
+Reslan \emph{et al.} [10] & Digital twin plus automated VSM & Non-value-added time, resource utilization, process monitoring & Digitally instrumented smart-factory cells & Requires digital-twin infrastructure and higher implementation cost. \\
+Matindana and Shoshiwa [9] & Survey-based SEM across SMEs & Output improvement, waste reduction, lean-process adoption & Sector-level benchmarking for food and beverage SMEs & Not suitable for plant-level what-if simulation or downtime-priority analysis. \\
+Unal and Bilget [11] & DES plus line-balancing algorithm & Production time, throughput per day, throughput per operator & Labor-intensive assembly and apparel lines & Less informative for automated downtime-dominated packaging systems. \\
+\bottomrule
+\end{longtable}
+
+\begin{figure}[H]
+\centering
+\includegraphics[width=0.98\textwidth]{outputs/methodology_kpi_heatmap.png}
+\caption{KPI-based comparison of the proposed methodology with comparable lean-evaluation studies.}
+\end{figure}
+
+\begin{figure}[H]
+\centering
+\includegraphics[width=0.98\textwidth]{outputs/methodology_industry_fit_heatmap.png}
+\caption{Industry-fit comparison of the scored methodologies.}
+\end{figure}
+
+The comparison indicates that the present method is strongest in throughput-, downtime-, and waste-reduction-oriented problems. It is especially suitable for repetitive, machine-paced industries such as beverage bottling, food packaging, dairy filling, and similar FMCG lines. It is less suitable when the main decision problem concerns defect generation, labor balancing, WIP, or real-time digital control.
+
+\subsection{Practical Implications}
+Based on the results, the recommended order of lean implementation is:
+\begin{enumerate}
+    \item \textbf{First priority: TPM.} The plant should focus on reducing long-duration stoppages through maintenance planning, preventive checks, fast fault recovery, and equipment reliability tracking.
+    \item \textbf{Second priority: 5S and visual management.} These tools should be used to reduce small disruptions, improve operator control, and standardize the workplace.
+    \item \textbf{Third priority: integrated lean bundle.} Once maintenance discipline is improved, the plant can combine TPM with micro-stop reduction and standard work for broader gains.
+\end{enumerate}
+
+\begin{table}[H]
+\centering
+\caption{Recommended Lean Implementation Roadmap}
+\begin{tabular}{p{1.3cm}p{2.6cm}p{4.0cm}p{5.2cm}}
+\toprule
+\textbf{Priority} & \textbf{Lean Focus} & \textbf{Expected Impact} & \textbf{Primary KPIs to Monitor} \\
+\midrule
+1 & TPM and maintenance discipline & Highest reduction in lost-time severity and waiting waste by targeting major stoppages. & Major-downtime minutes, waiting-waste hours, availability, MTTR, major-stoppage count, liters gained. \\
+2 & 5S and visual management & Better workplace organization and reduction in frequent micro-disruptions. & Micro-stoppage count, short-delay frequency, operator recovery time, pause reduction, waste reduction (\%). \\
+3 & Integrated lean bundle & Combined gains from reliability, stabilization, and standardized work. & Output gain (\%), availability gain, total pause time, waiting-waste share, OEE when quality data are added. \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\subsection{Limitations and Future Scope}
+This study has four main limitations. First, the lean scenarios are simulated assumptions rather than observed post-implementation outcomes. Second, the dataset does not contain detailed cause-coded downtime labels, so the mapping from downtime category to lean tool remains inferential. Third, the analysis is based on one industrial case, so the results should not be generalized mechanically to all production systems. Fourth, the cross-paper comparison scores are interpretive scores derived from published methodology descriptions and KPI scopes rather than normalized head-to-head experiments on the same production dataset.
+
+Future work can improve the present study by collecting root-cause-coded downtime data, operator-level observations, quality-loss information, and real post-intervention performance records. Future studies may also extend the simulation to include changeover analysis, workforce allocation, line balancing, and cost-benefit evaluation.
+
+\section{Conclusion}
+This paper examined how lean-manufacturing priorities can be selected in a beverage bottling line by using real production and downtime data. The analysis showed that the line operates with low availability, high pause time, and noticeable variability across the monitoring period. In lean terms, the line is heavily affected by waiting waste, because more than half of monitored time is consumed without producing output. Although micro-stoppages occurred most often, they were not the main source of lost production time.
+
+The simulation results indicate the following patterns:
+\begin{enumerate}
+    \item 5S and visual management improve output by 2.33\% and reduce waiting waste by 1.52\%;
+    \item TPM improves output by 20.61\% and reduces waiting waste by 14.68\%; and
+    \item an integrated lean bundle improves output by 32.19\%, raises simulated availability from 42.37\% to 55.33\%, and reduces waiting waste by 22.51\%.
+\end{enumerate}
+
+The findings indicate that the greatest improvement comes from addressing severe stoppages before focusing on the more visible but less costly short interruptions. For this line, TPM is therefore the most logical first intervention, while 5S and visual management become more valuable as supporting measures after major downtime is brought under better control. The same conclusion holds whether the system is judged by throughput, availability, or waste reduction.
+
+The paper also shows that the proposed framework is most appropriate for repetitive, downtime-driven SME production systems such as bottling and packaging lines. Its value lies in linking lean decisions to actual loss behavior observed in the plant and in translating downtime into a measurable waiting-waste outcome. In that sense, the study contributes a practical and reproducible method for selecting lean priorities from real industrial data.
+
+\begin{thebibliography}{23}
+
+\bibitem{r1}
+I. Belekoukias, J. A. Garza-Reyes, and V. Kumar, ``The impact of lean methods and tools on the operational performance of manufacturing organisations,'' \emph{International Journal of Production Research}, vol. 52, no. 18, pp. 5346--5366, 2014, doi: 10.1080/00207543.2014.903348.
+
+\bibitem{r2}
+O. Oleghe and K. Salonitis, ``Hybrid simulation modelling of the human-production process interface in lean manufacturing systems,'' \emph{International Journal of Lean Six Sigma}, vol. 10, no. 2, pp. 665--690, 2019, doi: 10.1108/IJLSS-01-2018-0004.
+
+\bibitem{r3}
+F. Yu and Z. Chen, ``Tools, application areas and challenges of factory simulation in Small and Medium-Sized Enterprises -- A Review,'' \emph{Procedia CIRP}, vol. 104, pp. 399--404, 2021, doi: 10.1016/j.procir.2021.11.067.
+
+\bibitem{r4}
+J. Possik, A. Zouggar-Amrani, B. Vallespir, and G. Zacharewicz, ``Lean techniques impact evaluation methodology based on a co-simulation framework for manufacturing systems,'' \emph{International Journal of Computer Integrated Manufacturing}, vol. 35, no. 1, pp. 91--111, 2022, doi: 10.1080/0951192X.2021.1972468.
+
+\bibitem{r5}
+S. Frecassetti, B. Kassem, K. Kundu, M. Ferrazzi, and A. Portioli-Staudacher, ``Introducing Lean practices through simulation: A case study in an Italian SME,'' \emph{Quality Management Journal}, vol. 30, no. 2, pp. 90--104, 2023, doi: 10.1080/10686967.2023.2171326.
+
+\bibitem{r6}
+J. A. C. Bokhorst, W. Knol, J. Slomp, and T. Bortolotti, ``Assessing to what extent smart manufacturing builds on lean principles,'' \emph{International Journal of Production Economics}, vol. 253, art. no. 108599, 2022, doi: 10.1016/j.ijpe.2022.108599.
+
+\bibitem{r7}
+G. A. David, P. M. C. Monson, C. Soares Junior, P. O. Concei\c{c}\~ao Junior, P. R. Aguiar, and A. Simeone, ``IoT-Driven Deep Learning for Enhanced Industrial Production Forecasting,'' \emph{IEEE Internet of Things Journal}, vol. 11, no. 23, pp. 38486--38495, 2024, doi: 10.1109/JIOT.2024.3447579.
+
+\bibitem{r8}
+G. A. David, P. M. C. Monson, and C. Soares Junior, \emph{Industrial Production Time-Series Dataset from a Beverage Bottling Line}. Zenodo, Jan. 4, 2026. doi: 10.5281/zenodo.18146866.
+
+\bibitem{r9}
+J. M. Matindana and M. J. Shoshiwa, ``Lean manufacturing implementation in food and beverage SMEs in Tanzania: using structural equation modelling (SEM),'' \emph{Management System Engineering}, vol. 4, no. 1, pp. 1--14, 2025, doi: 10.1007/s44176-025-00036-3.
+
+\bibitem{r10}
+M. Reslan, M. J. Triebe, R. Venketesh, and A. J. Hartwell, ``Automation of Value Stream Mapping: A Case Study on Enhancing Lean Manufacturing Tools Through Digital Twins,'' \emph{Procedia CIRP}, vol. 134, pp. 455--460, 2025, doi: 10.1016/j.procir.2025.02.159.
+
+\bibitem{r11}
+C. Unal and S. Bilget, ``Examination of lean manufacturing systems by simulation technique in apparel industry,'' \emph{The Journal of The Textile Institute}, vol. 112, no. 3, pp. 377--387, 2021, doi: 10.1080/00405000.2020.1756104.
+
+\bibitem{r12}
+M. M. Shahriar, M. S. Parvez, M. A. Islam, and S. Talapatra, ``Implementation of 5S in a plastic bag manufacturing industry: A case study,'' \emph{Cleaner Engineering and Technology}, vol. 8, art. no. 100488, 2022, doi: 10.1016/j.clet.2022.100488.
+
+\bibitem{r13}
+P. M. Rojasra and M. N. Qureshi, ``Performance Improvement through 5S in Small Scale Industry: A case study,'' \emph{International Journal of Modern Engineering Research}, vol. 3, no. 3, pp. 1654--1660, 2013.
+
+\bibitem{r14}
+C. M. L. Rahman, M. A. Hoque, and S. M. Uddin, ``Assessment of Total Productive Maintenance Implementation through Downtime and Mean Downtime Analysis (Case study: a Semi-automated Manufacturing Company of Bangladesh),'' \emph{IOSR Journal of Engineering}, vol. 4, no. 9, pp. 38--47, 2014, doi: 10.9790/3021-04943847.
+
+\bibitem{r15}
+G. Pinto, F. J. G. Silva, A. Baptista, N. O. Fernandes, R. Casais, and C. Carvalho, ``TPM implementation and maintenance strategic plan -- a case study,'' \emph{Procedia Manufacturing}, vol. 51, pp. 1423--1430, 2020, doi: 10.1016/j.promfg.2020.10.198.
+
+\bibitem{r16}
+R. Shah and P. T. Ward, ``Lean manufacturing: context, practice bundles, and performance,'' \emph{Journal of Operations Management}, vol. 21, no. 2, pp. 129--149, 2003, doi: 10.1016/S0272-6963(02)00108-0.
+
+\bibitem{r17}
+L. W. Friedman and H. H. Friedman, ``Analyzing Simulation Output Using the Bootstrap Method,'' \emph{Simulation}, vol. 64, no. 2, pp. 95--100, 1995, doi: 10.1177/003754979506400203.
+
+\bibitem{r18}
+A. Belhadi, Y. B. M. Sha'ri, F. E. Touriki, and S. El Fezazi, ``Lean production in SMEs: literature review and reflection on future challenges,'' \emph{Journal of Industrial and Production Engineering}, vol. 35, no. 6, pp. 368--382, 2018, doi: 10.1080/21681015.2018.1508081.
+
+\bibitem{r19}
+M. Dora, M. Kumar, D. Van Goubergen, A. Molnar, and X. Gellynck, ``Operational performance and critical success factors of lean manufacturing in European food processing SMEs,'' \emph{Trends in Food Science \& Technology}, vol. 31, no. 2, pp. 156--164, 2013, doi: 10.1016/j.tifs.2013.03.002.
+
+\bibitem{r20}
+T. Al-Hawari, F. Aqlan, M. Al-Buhaisi, and Z. Al-Faqeer, ``Simulation-based analysis and productivity improvement of a fully automatic bottle-filling production system: A practical case study,'' in \emph{2010 International Conference on Computer Modeling and Simulation}, vol. 4, pp. 195--199, 2010, doi: 10.1109/ICCMS.2010.212.
+
+\bibitem{r21}
+I. Zennaro, D. Battini, F. Sgarbossa, A. Persona, and R. De Marchi, ``Micro downtime: Data collection, analysis and impact on OEE in bottling lines: The San Benedetto case study,'' \emph{International Journal of Quality \& Reliability Management}, vol. 35, no. 4, pp. 965--995, 2018, doi: 10.1108/IJQRM-11-2016-0202.
+
+\bibitem{r22}
+G. K. Inyiama and S. A. Oke, ``Maintenance downtime evaluation in a process bottling plant,'' \emph{International Journal of Quality \& Reliability Management}, vol. 38, no. 1, pp. 229--248, 2020, doi: 10.1108/IJQRM-12-2018-0340.
+
+\bibitem{r23}
+C. Cuggia-Jim\'enez, E. Orozco-Acosta, and D. Mendoza-Galvis, ``Lean manufacturing: a systematic review in the food industry,'' \emph{Informaci\'on Tecnol\'ogica}, vol. 31, no. 5, pp. 163--172, 2020, doi: 10.4067/S0718-07642020000500163.
+
+\end{thebibliography}
+
+\end{document}
