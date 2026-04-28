@@ -1,0 +1,252 @@
+Title of your Project
+A PROJECT REPORT
+SUBMITTED IN PARTIAL FULFILLMENT OF THE REQUIREMENTS
+FOR THE AW ARD OF THE DEGREE
+OF
+BACHELOR OF TECHNOLOGY
+IN
+Name Of Department
+Submitted by:
+Loreum Ipsum (2KXX/XX/XXX)
+Loreum Ipsum (2KXX/XX/XXX)
+Loreum Ipsum (2KXX/XX/XXX)
+Under the supervision of
+Prof.(Dr.) Name Of Supervisor
+DEPT. OF .........
+DELHI TECHNOLOGICAL UNIVERSITY
+(Formerly Delhi College of Engineering)
+Bawana Road, Delhi-110042
+MAY 2022
+
+DEPT. OF ...
+DELHI TECHNOLOGICAL UNIVERSITY
+(Formerly Delhi College of Engineering)
+Bawana Road, Delhi-110042
+CANDIDATE’S DECLARATION
+We, Loreum Ipsum (2KXX/XX/XXX), Loreum Ipsum (2KXX/XX/XXX) & Loreum Ip-
+sum (2KXX/XX/XXX) students of B.Tech (.....), hereby declare that the Project Disserta-
+tion titled — “Title of report” which is submitted by us to the Department of ........., DTU,
+Delhi in fulfillment of the requirement for awarding of the Bachelor of Technology de-
+gree, is not copied from any source without proper citation. This work has not previously
+formed the basis for the award of any Degree, Diploma, Fellowship or other similar title
+or recognition.
+Place: New Delhi
+Date: 11/05/2022
+Loreum Ipsum
+(2KXX/XX/XXX)
+Loreum Ipsum
+(2KXX/XX/XXX)
+Loreum Ipsum
+(2KXX/XX/XXX)
+i
+
+DEPT. OF COMPUTER SCIENCE & ENGINEERING
+DELHI TECHNOLOGICAL UNIVERSITY
+(Formerly Delhi College of Engineering)
+Bawana Road, Delhi-110042
+CERTIFICATE
+I hereby certify that the Project titled ”Title of report” which is submitted by Loreum Ip-
+sum (2KXX/XX/XXX), Loreum Ipsum (2KXX/XX/XXX) & Loreum Ipsum (2KXX/XX/XXX)
+for fulfillment of the requirements for awarding of the degree of Bachelor of Technology
+(B.tech) is a record of the project work carried out by the students under my guidance &
+supervision. To the best of my knowledge, this work has not been submitted in any part
+or fulfillment for any Degree or Diploma to this University or elsewhere.
+Place : New Delhi
+Date : 11/05/2022
+Prof.(Dr.) Name Of supervisor
+(SUPERVISOR)
+Professor
+Department of .......
+Delhi Technological University
+ii
+
+ABSTRACT
+Keywords - Lorem Ipsum , Lorem Ipsum
+Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem
+Ipsum has been the industry’s standard dummy text ever since the 1500s, when an un-
+known printer took a galley of type and scrambled it to make a type specimen book. It has
+survived not only five centuries, but also the leap into electronic typesetting, remaining
+essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets
+containing Lorem Ipsum passages, and more recently with desktop publishing software
+like Aldus PageMaker including versions of Lorem Ipsum.
+Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem
+Ipsum has been the industry’s standard dummy text ever since the 1500s, when an un-
+known printer took a galley of type and scrambled it to make a type specimen book. It has
+survived not only five centuries, but also the leap into electronic typesetting, remaining
+essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets
+containing Lorem Ipsum passages, and more recently with desktop publishing software
+like Aldus PageMaker including versions of Lorem Ipsum.
+iii
+
+ACKNOWLEDGEMENT
+The successful completion of any task is incomplete and meaningless without giving any
+due credit to the people who made it possible without which the project would not have
+been successful and would have existed in theory.
+First and foremost, we are grateful toDr. ......, HOD, Department of .................., Delhi
+Technological University, and all other faculty members of our department for their con-
+stant guidance and support, constant motivation and sincere support and gratitude for this
+project work. We owe a lot of thanks to our supervisor,Dr. ................., Professor, Depart-
+ment of Computer Science, Delhi Technological University for igniting and constantly
+motivating us and guiding us in the idea of a creatively and amazingly performed Major
+Project in undertaking this endeavor and challenge and also for being there whenever we
+needed his guidance or assistance.
+We would also like to take this moment to show our thanks and gratitude to one and
+all, who indirectly or directly have given us their hand in this challenging task. We feel
+happy and joyful and content in expressing our vote of thanks to all those who have helped
+us and guided us in presenting this project work for our Major project. Last, but never
+least, we thank our well-wishers and parents for always being with us, in every sense and
+constantly supporting us in every possible sense whenever possible.
+Loreum Ipsum
+(2KXX/XX/XXX)
+Loreum Ipsum
+(2KXX/XX/XXX)
+Loreum Ipsum
+(2KXX/XX/XXX)
+iv
+
+Contents
+Candidate’s Declaration i
+Certificate ii
+Abstract iii
+Acknowledgement iv
+List of Figures vi
+List of Tables vii
+List of Symbols, abbreviations viii
+CHAPTER 1: INTRODUCTION 1
+1.1 Overview 1
+1.2 Problem Formulation 1
+1.3 Objectives 2
+1.4 Motivation 3
+CHAPTER 2: BACKGROUND 4
+2.1 What is ........ 4
+CHAPTER 3: CONCLUSION 6
+Appendices 6
+References 7
+v
+
+List of Tables
+Table 2.1 : Sample Table 5
+vi
+
+List of Figures
+Figure 2.1 : Sample Image 4
+vii
+
+LIST OF SYMBOLS, ABBREVIATIONS AND NOMENCLATURE
+Sample : Sample Text
+viii
+
+Chapter 1
+INTRODUCTION
+1.1 Overview
+Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum
+has been the industry’s standard dummy text ever since the 1500s, when an unknown
+printer took a galley of type and scrambled it to make a type specimen book. It has
+survived not only five centuries, but also the leap into electronic typesetting, remaining
+essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets
+containing Lorem Ipsum passages, and more recently with desktop publishing software
+like Aldus PageMaker including versions of Lorem Ipsum.
+Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem
+Ipsum has been the industry’s standard dummy text ever since the 1500s, when an un-
+known printer took a galley of type and scrambled it to make a type specimen book. It has
+survived not only five centuries, but also the leap into electronic typesetting, remaining
+essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets
+containing Lorem Ipsum passages, and more recently with desktop publishing software
+like Aldus PageMaker including versions of Lorem Ipsum.
+1.2 Problem Formulation
+Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum
+has been the industry’s standard dummy text ever since the 1500s, when an unknown
+printer took a galley of type and scrambled it to make a type specimen book. It has
+1
+
+survived not only five centuries, but also the leap into electronic typesetting, remaining
+essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets
+containing Lorem Ipsum passages, and more recently with desktop publishing software
+like Aldus PageMaker including versions of Lorem Ipsum.
+1.3 Objectives
+• Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem
+Ipsum has been the industry’s standard dummy text ever since the 1500s, when an
+unknown printer took a galley of type and scrambled it to make a type specimen
+book. It has survived not only five centuries, but also the leap into electronic type-
+setting, remaining essentially unchanged. It was popularised in the 1960s with the
+release of Letraset sheets containing Lorem Ipsum passages, and more recently with
+desktop publishing software like Aldus PageMaker including versions of Lorem Ip-
+sum.
+• Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem
+Ipsum has been the industry’s standard dummy text ever since the 1500s, when an
+unknown printer took a galley of type and scrambled it to make a type specimen
+book. It has survived not only five centuries, but also the leap into electronic type-
+setting, remaining essentially unchanged. It was popularised in the 1960s with the
+release of Letraset sheets containing Lorem Ipsum passages, and more recently with
+desktop publishing software like Aldus PageMaker including versions of Lorem Ip-
+sum.
+• Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem
+Ipsum has been the industry’s standard dummy text ever since the 1500s, when an
+unknown printer took a galley of type and scrambled it to make a type specimen
+book. It has survived not only five centuries, but also the leap into electronic type-
+setting, remaining essentially unchanged. It was popularised in the 1960s with the
+release of Letraset sheets containing Lorem Ipsum passages, and more recently with
+desktop publishing software like Aldus PageMaker including versions of Lorem Ip-
+sum.
+2
+
+1.4 Motivation
+Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum
+has been the industry’s standard dummy text ever since the 1500s, when an unknown
+printer took a galley of type and scrambled it to make a type specimen book. It has
+survived not only five centuries, but also the leap into electronic typesetting, remaining
+essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets
+containing Lorem Ipsum passages, and more recently with desktop publishing software
+like Aldus PageMaker including versions of Lorem Ipsum.
+3
+
+Chapter 2
+BACKGROUND
+2.1 What is ........
+Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum
+has been the industry’s standard dummy text ever since the 1500s, when an unknown
+printer took a galley of type and scrambled it to make a type specimen book. It has
+survived not only five centuries, but also the leap into electronic typesetting, remaining
+essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets
+containing Lorem Ipsum passages, and more recently with desktop publishing software
+like Aldus PageMaker including versions of Lorem Ipsum.
+Figure 2.1: Sample Image
+4
+
+Table 2.1: Sample Table
+Units in Hidden Layers Accuracy Precision Recall F1-score
+100,20,20 0 0 0 0
+100,20,20 0 0 0 0
+100,20,20 0 0 0 0
+100,20,20 0 0 0 0
+100,20,20 0 0 0 0
+5
+
+Chapter 3
+CONCLUSION
+Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum
+has been the industry’s standard dummy text ever since the 1500s, when an unknown
+printer took a galley of type and scrambled it to make a type specimen book. It has
+survived not only five centuries, but also the leap into electronic typesetting, remaining
+essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets
+containing Lorem Ipsum passages, and more recently with desktop publishing software
+like Aldus PageMaker including versions of Lorem Ipsum.
+6
+
+Appendix
+7
+
+Bibliography
+[1] Lorem Ipsum is simply dummy text of the printing and typesetting industry.
+[2] Lorem Ipsum is simply dummy text of the printing and typesetting
+[3] Lorem Ipsum is simply dummy text of the printing and typesetting industry.
+8
+
+PAPER ACCEPTANCE PROOF
+9
+
+REGISTRATION PROOF
+10
+
+SCOPUS INDEXED CONFERENCE PROOF
+11
